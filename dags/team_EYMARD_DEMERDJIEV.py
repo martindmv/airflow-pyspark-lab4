@@ -44,7 +44,7 @@ with DAG(
     tags=["lab4", "capstone"],
 ) as dag:
 
-    # Tâche 1 : Attendre l'arrivée du fichier CSV du jour [cite: 34]
+    # Tâche 1 : Attendre l'arrivée du fichier CSV du jour
     wait_csv = FileSensor(
         task_id="wait_for_daily_csv",
         filepath="data/incoming/transactions_{{ ds }}.csv", # {{ ds }} est la date logique d'Airflow
@@ -57,7 +57,7 @@ with DAG(
     def ingest(ds=None):
         ingest_day(ds)
 
-    # Tâche 3 : Valider les données Silver (échoue si les données sont corrompues) [cite: 50]
+    # Tâche 3 : Valider les données Silver (échoue si les données sont corrompues)
     @task
     def validate(ds=None):
         validate_silver(ds)
@@ -68,7 +68,7 @@ with DAG(
         run_daily(ds)
         print(f"Lancement de Spark pour la date : {ds}")
 
-    # Tâche 5 : Une tâche finale créative (ex: log, notification, ou copie de JSON) [cite: 54]
+    # Tâche 5 : Une tâche finale créative (ex: log, notification, ou copie de JSON)
     @task
     def publish_report(ds=None):
         print(f"Le tableau de bord pour {ds} est prêt et publié !")

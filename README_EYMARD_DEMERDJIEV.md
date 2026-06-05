@@ -32,11 +32,11 @@
 
 | task_id | Role |
 |---------|------|
-| `task_1` | `role_1` |
-| `task_2` | `role_2` |
-| `task_3` | `role_3` |
-| `task_4` | `role_4` |
-| `task_5` | `role_5` |
+| `wait_csv` | Attendre l'arrivée du fichier CSV du jour. |
+| `ingest` | Ingérer les données brutes au format Parquet |
+| `validate` | Valider les données Silver (échoue si les données sont corrompues) |
+| `compute_kpis` | Lancer les transformations Spark (couche Gold) |
+| `publish_report` | Une tâche finale créative (ex: log, notification, ou copie de JSON) |
 
 **Dependency graph:**
 
@@ -52,9 +52,9 @@ File: `include/team_EYMARD_DEMERDJIEV_spark.py`
 
 | # | Function | What it does |
 |---|----------|--------------|
-| 1 | `transform_1` | `description_1` |
-| 2 | `transform_2` | `description_2` |
-| 3 | `transform_3` | `description_3` |
+| 1 | `transform_1` | `Lecture du Parquet silver avec schema explicite + filtre. Lit data/raw/dt=<logical_date>/ et cast les types.` |
+| 2 | `transform_2` | `Enrichissement. Ajoute une colonne 'revenue' et la date logique.` |
+| 3 | `transform_3` | `Agrégation KPIs par category et country. Calcule le total revenue et le nombre de transactions.` |
 
 ---
 
