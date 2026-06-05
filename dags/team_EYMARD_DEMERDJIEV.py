@@ -24,7 +24,7 @@ from include.ingest import ingest_day, validate_silver
 from include.paths import report_json
 
 # TODO: after creating team_EYMARD_DEMERDJIEV_spark.py, import run_daily from there:
-# from include.team_EYMARD_DEMERDJIEV_spark import run_daily
+from include.team_EYMARD_DEMERDJIEV_spark import run_daily
 
 DEFAULT_ARGS = {
     "owner": "team",
@@ -65,7 +65,7 @@ with DAG(
     # Tâche 4 : Lancer les transformations Spark (couche Gold)
     @task
     def compute_kpis(ds=None):
-        # run_daily(ds) # À décommenter quand la partie Spark sera codée
+        run_daily(ds)
         print(f"Lancement de Spark pour la date : {ds}")
 
     # Tâche 5 : Une tâche finale créative (ex: log, notification, ou copie de JSON) [cite: 54]
