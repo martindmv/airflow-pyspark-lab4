@@ -8,7 +8,7 @@ import os
 
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql import functions as F
-from pyspark.sql.types import FloatType, StringType, StructField, StructType
+from pyspark.sql.types import DoubleType, StringType, StructField, StructType
 
 
 def transform_1(spark: SparkSession, logical_date: str) -> DataFrame:
@@ -21,7 +21,7 @@ def transform_1(spark: SparkSession, logical_date: str) -> DataFrame:
         StructField("category",    StringType(), True),
         StructField("payment_method", StringType(), True),
         StructField("country",     StringType(), True),
-        StructField("amount_eur",  FloatType(),  True),
+        StructField("amount_eur",  DoubleType(),  True),
         StructField("ts",   StringType(), True),
     ])
 
@@ -73,7 +73,7 @@ def run_daily(logical_date: str, *, with_reference: bool = False) -> dict:
     df_kpi      = transform_3(df_enriched)
 
     # Écriture Parquet curated (idempotent grâce à overwrite)
-    curated_path = f"data/curated/dt={logical_date}/"
+    curated_path = f"curated/dt={logical_date}/"
     df_kpi.write.mode("overwrite").parquet(curated_path)
 
     # Calcul des totaux pour le JSON
@@ -90,7 +90,6 @@ def run_daily(logical_date: str, *, with_reference: bool = False) -> dict:
         "logical_date":       logical_date,
         "total_revenue":      float(totals["total_revenue"]),
         "total_transactions": int(totals["total_transactions"]),
-        "curated_path":       curated_path,
     }
     with open(report_path, "w") as f:
         json.dump(report, f, indent=2)

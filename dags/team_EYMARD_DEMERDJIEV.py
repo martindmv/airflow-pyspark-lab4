@@ -24,7 +24,7 @@ from include.ingest import ingest_day, validate_silver
 from include.paths import report_json
 
 # TODO: after creating team_EYMARD_DEMERDJIEV_spark.py, import run_daily from there:
-from include.team_EYMARD_DEMERDJIEV_spark import run_daily
+from include.team_spark_EYMARD_DEMERDJIEV import run_daily
 
 DEFAULT_ARGS = {
     "owner": "team",
@@ -39,7 +39,7 @@ with DAG(
     start_date=datetime(2026, 6, 1),
     end_date=datetime(2026, 6, 14),
     schedule="@daily",
-    catchup=False,
+    catchup=True,
     default_args=DEFAULT_ARGS,
     tags=["lab4", "capstone"],
 ) as dag:
@@ -47,7 +47,7 @@ with DAG(
     # Tâche 1 : Attendre l'arrivée du fichier CSV du jour
     wait_csv = FileSensor(
         task_id="wait_for_daily_csv",
-        filepath="data/incoming/transactions_{{ ds }}.csv", # {{ ds }} est la date logique d'Airflow
+        filepath="incoming/transactions_{{ ds }}.csv", # {{ ds }} est la date logique d'Airflow
         mode="poke",
         timeout=600
     )
