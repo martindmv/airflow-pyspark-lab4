@@ -41,7 +41,7 @@
 **Dependency graph:**
 
 ```
-e.g. `task_1` → `task_2` → `task_3` → `task_4` → `task_5`
+`wait_csv` → `ingest` → `validate` → `compute_kpis` → `publish_report`
 ```
 
 ---
