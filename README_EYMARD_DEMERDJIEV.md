@@ -89,7 +89,7 @@ python scripts/vendor_drop.py --date 2026-06-03 --corrupt
 |-------|-------|----------|
 | R Reliability | | |
 | S Spark depth | | |
-| O Orchestration | | |
+| O Orchestration | YES | Created a corrupted file and triggered DAG to see that it fails. |
 | Q Data quality | | |
 | P Custom | | |
 | X SparkSubmit | | |
